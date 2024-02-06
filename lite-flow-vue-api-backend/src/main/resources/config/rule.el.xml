@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE flow PUBLIC  "liteflow" "liteflow.dtd">
+<flow>
+    <!--> 参考rule包下的内容 <-->
+
+    <chain name="serialDemo">
+        <!-- 串行编排，顺序执行  也可以使用THEN-->
+        SER(serial_a,serial_b,serial_c);
+    </chain>
+
+    <chain name="parallelDemo">
+        <!-- 并行编排，一起执行  也可以使用WHEN-->
+        PAR(parallel_a,parallel_b,parallel_c);
+    </chain>
+
+    <chain name="choseDemo">
+        <!--
+        选择编排，也叫排他网关， 下面的switch选择逻辑
+        如果return "chose_b"; 则下一步执行chose_b的内容
+        根据chose_a返回的结果确定下一步执行的内容 -->
+        SWITCH(rule_chose_a).TO(rule_chose_b,rule_chose_c).DEFAULT(rule_chose_default);
+    </chain>
+
+    <chain name="rule_chose_combine_serial_and_parallel">
+        THEN(
+        chose_combine_a,
+        WHEN(
+        chose_combine_b,
+        SWITCH(chose_combine_c).to(chose_combine_d,chose_combine_e)
+        ),
+        chose_combine_f
+        );
+    </chain>
+
+    <chain name="thenDemo">
+        <!-- 表示此时串行的结果为w1 -->
+       THEN(then_a,then_b).id("w1");
+    </chain>
+
+    <chain name="vue_api_demo">
+//        THEN(vue_a,
+//                SWITCH(vue_b).TO(
+//                    THEN(vue_d,vue_e,vue_f,vue_z).id("vue_d"),
+//                    THEN(vue_c,WHEN(THEN(vue_l,vue_m),
+//                    THEN(SWITCH(vue_g).TO(
+//                        THEN(vue_h,vue_i,vue_k).id("vue_h"),
+//                        THEN(vue_j,vue_k).id("vue_j")
+//                    ))),vue_z).id("vue_c")
+//                )
+//            );
+        THEN(vue_a,SWITCH(vue_b).TO(THEN(vue_d,vue_e,vue_f,vue_z).id("vue_d"),THEN(vue_c,WHEN(THEN(vue_l,vue_m).id("vue_l"),THEN(SWITCH(vue_g).TO(THEN(vue_h,vue_i,vue_k).id("vue_h"),THEN(vue_j,vue_k).id("vue_j")))),vue_z).id("vue_c"))).id("vue_a");
+    </chain>
+
+
+</flow>

@@ -1,0 +1,12 @@
+如果要依次执行，就用then关键字，THEN必须大写
+也可以用SER关键字和THEN等价
+<chain name="chain1">
+    THEN(a, b, c, d);
+</chain>
+
+https://liteflow.cc/pages/8486fb/
+
+https://gitee.com/dravin/liteflow-logicflow-vue
+
+https://gitee.com/dravin/liteflow-vue-api
+

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE flow PUBLIC  "liteflow" "liteflow.dtd">
+<flow>
+
+    <!--  配合component包的内容来看 -->
+
+    <chain name="chain1">
+        <!--
+        common_component
+        -->
+        THEN(a, b, c);
+    </chain>
+
+    <chain name="choseChain2">
+        SWITCH(chose_a).to(chose_b,chose_c);
+        <!--
+        chose2_component
+        <-->
+    </chain>
+
+    <chain name="choseChainById">
+        <!--
+        表示如果a_cmp返回的是w1的话，c_cmp和d_cmp都执行
+        如果返回的是b_cmp则只执行b_cmp
+        chose2_component
+        -->
+        SWITCH(a_cmp).TO(b_cmp,WHEN(c_cmp,d_cmp).id("w1"));
+    </chain>
+
+    <chain name="ifChain">
+        <!--
+        参考三目运算符
+        if_component
+        -->
+
+        IF(if_a,if_b,if_c);
+    </chain>
+
+    <chain name="forChain">
+        <!--
+        执行for_f 返回值是循环的次数,如果返回10则表示，for_a和for_b都执行10次
+        loop_component
+        -->
+        FOR(for_f).DO(THEN(for_a,for_b));
+    </chain>
+
+    <chain name="conditionLoopChain">
+        <!--
+        条件循环，表示要对表达式进行条件循环操作
+        如果返回true,则表示会一直执行选择的组件，这里是一直执行while_b和while_c
+        可以根据实际的逻辑结合setIsEnd()做结束,不过这个结束会同时结束所有组件的所有后续流程
+        -->
+        WHILE(while_a).DO(THEN(while_b,while_c));
+    </chain>
+
+    <chain name="iteratorLoopChain1">
+        <!--
+        迭代循环组件，类似java中的iterator标签
+        下面的写法意思是根据传入的参数，确认执行iterator_a的次数
+        假设it结点的返回值是ListUtil.toList("1", "2", "3").iterator()
+        则就是iterator_a执行三次
+        在iterator_a中调用this.getCurrLoopObj() 获取的迭代的对象，上面假设传入("a","b","c")
+        则每次迭代时，可以分别获取到参数a,b,c如果想获取是执行第几次循环，可以使用
+        this.getLoopIndex()
+        -->
+        ITERATOR(it).DO(iterator_a);
+    </chain>
+    <chain name="iteratorLoopChain2">
+        <!--
+        迭代循环组件，类似java中的iterator标签
+
+        带break的迭代循环
+        这里的意思是执行过程中运行b的代码逻辑，如果符合b的逻辑，就break终止执行
+        -->
+        ITERATOR(it).DO(iterator_a).BREAK(iterator_b);
+    </chain>
+    <chain name="iteratorLoopChain3">
+        <!--
+        迭代循环组件，类似java中的iterator标签
+
+        嵌套迭代循环
+        就是x1执行完后。执行iterator_c，执行完iterator_c之后，
+        后续的步骤是先执行x2,再执行一次iterator_c
+        -->
+        ITERATOR(x1).DO(
+        THEN(
+        iterator_c,
+        ITERATOR(x2).DO(iterator_c)
+        )
+        );
+    </chain>
+
+
+    <!--
+    可覆盖的方法
+    https://liteflow.cc/pages/8486fb/
+
+    https://gitee.com/dravin/liteflow-logicflow-vue
+
+    https://gitee.com/dravin/liteflow-vue-api
+    -->
+</flow>

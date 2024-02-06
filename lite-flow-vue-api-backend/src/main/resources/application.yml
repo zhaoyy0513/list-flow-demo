@@ -1,0 +1,29 @@
+server:
+  port: 25011
+spring:
+  mvc:
+    pathmatch:
+      # 处理swagger版本问题
+      matching-strategy: ant_path_matcher
+
+liteflow:
+  rule-source: config/**/*.el.xml
+  #-----------------以下非必须-----------------
+  #liteflow是否开启，默认为true
+  enable: true
+  #liteflow的banner打印是否开启，默认为true
+  print-banner: false
+  # 并行节点的线程池Builder，LiteFlow提供了默认的Builder
+  thread-executor-class: leon.test.liteFlow.config.DefineExecutor
+  #是否打印执行中过程中的日志，默认为true
+  print-execution-log: false
+  #简易监控配置选项
+  monitor:
+    #监控是否开启，默认不开启
+    enable-log: false
+    #监控队列存储大小，默认值为200
+    queue-limit: 200
+    #监控一开始延迟多少执行，默认值为300000毫秒，也就是5分钟
+    delay: 300000
+    #监控日志打印每过多少时间执行一次，默认值为300000毫秒，也就是5分钟
+    period: 300000
